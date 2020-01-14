@@ -1,42 +1,54 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 import web
-
+import module1
 # import psycopg2
 
-render = web.template.render('templates/')
+# render = web.template.render('templates',base='layout')
 
 urls = (
     '/', 'index',
-    '/add','add'
+    # '/add','add',
+
+    '/hello_1[/]?.*', 'hello_1',
+    '/hello_2/(.*)', 'hello_2',
 )
 
-
-db = web.database(
-    dbn='postgres',
-    host='localhost',
-    port=5432,
-    user='postgres',
-    pw='641229',
-    db='postgres',
-)
+# db = web.database(
+#     dbn='postgres',
+#     host='localhost',
+#     port=5432,
+#     user='postgres',
+#     pw='641229',
+#     db='postgres',
+# )
 
 class index:
     def GET(self):
+
+        # return 'Hell00o, '
         # name = '23f'
         # return render.index(name)
         # return 'nihao'
-        todos = db.select('todo')
-        return render.index(todos)
-
-        # # i = web.input(name=None)
-        # return render.index(name)
-
+        # todos = db.select('todo')
+        # return render.index(todos)
+        render = web.template.render('templates',base='layout',globals={"m1":module1})
+        return render.index('sjx')
 
         # i = web.input(name=None)
         # return render.index(i.name)
 
+#
+class hello_1:
+
+    def GET(self):
+        return render.index_1()
+
+
+class hello_2:
+
+    def GET(self, name):
+        return render.index_2(name)
 class add:
     def POST(self):
         i = web.input(name=[])
@@ -47,6 +59,7 @@ class add:
 if __name__ == "__main__":
     app = web.application(urls, globals())
 #     render = web.template.render('templates')
-#     # print('hello')
+#     print('hello')
     app.run()
 #     print(render.index('hello'))
+
