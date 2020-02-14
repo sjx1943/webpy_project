@@ -3,16 +3,18 @@
 import web
 import module1
 # import psycopg2
-
+from pymongo import MongoClient
 # render = web.template.render('templates',base='layout')
 
 urls = (
     '/', 'index',
+    '/TodoLists', 'todo.TD',
     # '/add','add',
 
     '/hello_1[/]?.*', 'hello_1',
     '/hello_2/(.*)', 'hello_2',
 )
+# Making a Connection with MongoClient
 
 # db = web.database(
 #     dbn='postgres',
@@ -29,14 +31,17 @@ class index:
         # return 'Hell00o, '
         # name = '23f'
         # return render.index(name)
-        # return 'nihao'
+        return 'Hello,world!'
         # todos = db.select('todo')
         # return render.index(todos)
-        render = web.template.render('templates',base='layout',globals={"m1":module1})
-        return render.index('sjx')
+        # render = web.template.render('templates',base='layout',globals={"m1":module1})
+        # return render.index('sjx')
 
         # i = web.input(name=None)
         # return render.index(i.name)
+    def POST(self):
+        i = web.input()
+        print(i)
 
 #
 class hello_1:
@@ -55,6 +60,10 @@ class add:
         n = db.insert('todo', title=i.title)
         raise web.seeother('/')
 # post_data=web.input(name=[])
+
+client = MongoClient('localhost', 27017)
+db = client.todo_db
+collection = db['TodoLists']
 
 if __name__ == "__main__":
     app = web.application(urls, globals())
