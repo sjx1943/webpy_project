@@ -4,15 +4,12 @@ import web
 import module1
 # import psycopg2
 from pymongo import MongoClient
-# render = web.template.render('templates',base='layout')
+render = web.template.render('templates/')
 
 urls = (
-    '/', 'index',
-    '/TodoLists', 'todo.TD',
-    # '/add','add',
-
     '/hello_1[/]?.*', 'hello_1',
-    '/hello_2/(.*)', 'hello_2',
+    '/(.*)','hello',
+
 )
 # Making a Connection with MongoClient
 
@@ -25,20 +22,15 @@ urls = (
 #     db='postgres',
 # )
 
-class index:
-    def GET(self):
+class hello:
+    def GET(self,name):
+        i = web.input(times=1)
+        if not name:
+            name = 'world'
+        for c in range(int(i.times)):
+            print('hello',name,'!')
 
-        # return 'Hell00o, '
-        # name = '23f'
-        # return render.index(name)
-        return 'Hello,world!'
-        # todos = db.select('todo')
-        # return render.index(todos)
-        # render = web.template.render('templates',base='layout',globals={"m1":module1})
-        # return render.index('sjx')
-
-        # i = web.input(name=None)
-        # return render.index(i.name)
+        return 'Hello, '+name+'!'
     def POST(self):
         i = web.input()
         print(i)
@@ -47,7 +39,7 @@ class index:
 class hello_1:
 
     def GET(self):
-        return render.index_1()
+        return render.index_2()
 
 
 class hello_2:
