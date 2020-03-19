@@ -1,2 +1,15 @@
-$for a in ["a", "b", "c", "d"]:
-    $loop.index,$loop.index0,$loop.first,$loop.last,$loop.odd,$loop.even,$loop.parity<br/>
+$def with(todos)
+<ul>
+$for todo in todos:
+    <li id="t$todo.id">$todo.title</li>
+</ul>
+
+<form method="post" action="add">
+   <p>
+       <input type="text" name="title" />
+       <input type="submit" value="ADD" />
+   </p>
+</form>
+
+$var title:史哥第一个web页面
+
