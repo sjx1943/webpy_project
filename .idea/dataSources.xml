@@ -31,5 +31,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://35.194.162.211:5432/postgres</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="MySQ_local" uuid="6e93c7f2-ef75-40e0-9eb8-5a66609998e3">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://127.0.0.1:3306/web_learning</jdbc-url>
+    </data-source>
   </component>
 </project>

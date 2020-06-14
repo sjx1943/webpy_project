@@ -1,46 +1,61 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import pymysql
 import web
 
-from pymongo import MongoClient
-
-
 urls = (
-    '/', 'index',
-    '/TodoLists', 'todo.TD',
-    '/TodoLists/(\w+)', 'todo.TD_Simple',
-    '/renderTest', 'Test',
-    # '/add','add',
-
+    '/article','article',
+    '/index', 'index',
+    '/blog/\d+', 'blog',
+    '/(.*)', 'hello',
 )
+
 render = web.template.render('templates')
 
-class Test:
-    def GET(self):
-        return render.showRender('hello world')
+# from pymongo import MongoClient
 
 
-from pymongo import MongoClient
-
-# Making a Connection with MongoClient
-client = MongoClient('localhost', 27017)
-# Getting a Database
-db = client['todo_db']
-# Getting a Collection
-collection = db['TodoLists']
 
 class index:
     def GET(self):
-        return "欢迎来到待办事项首页!"
-config = web.storage(
-    email='piaosanlang@gmail.com',
-    site_name = '任务跟踪',
-    site_desc = '',
-    static = '/static',
-)
-web.template.Template.globals['config'] = config
-web.template.Template.globals['render'] = render
+        query = web.input()
+        # return query
+        return web.seeother('/article')
+
+
+
+class blog:
+    def POST(self):
+        data = web.input()
+        return data
+    def GET(self):
+        return web.ctx.env
+
+
+class hello:
+    def GET(self,name):
+        return render.hello_1(name)
+
+class article:
+    def GET(self):
+
+        con = pymysql.connect('localhost', 'root',
+                              '19910403Sjx@', 'web_learning')
+
+        try:
+            cur = con.cursor()
+            cur.execute("SELECT * FROM test")
+        except:
+            con.ping()
+            cur = con.cursor()
+            cur.execute("SELECT * FROM test")
+        rows = cur.fetchall()
+        cur.close()
+        con.close()
+
+        print(rows)
+        return render.article(rows)
 
 if __name__ == "__main__":
     app = web.application(urls, globals())
